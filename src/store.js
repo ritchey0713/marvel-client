@@ -1,17 +1,22 @@
 import { Provider } from 'react-redux';
 import { createStore,
+         compose,
          applyMiddleware,
          combineReducers } from 'redux';
 import thunk from 'redux-thunk'
+import heroes from './reducers/heroes'
 
 const reducers = combineReducers({
-
+  heroes
 })
 
 const middleware = [thunk]
 
-export default createStore(
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
   reducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(...middleware)
-)
+  composeEnhancer(applyMiddleware(thunk)),
+);
+
+export default store;
